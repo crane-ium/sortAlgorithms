@@ -23,16 +23,25 @@
 
 //SIGNATURES
 template<typename T>
-void mergesort(T arr[], const size_t& size
-             , bool ascending=true, bool absolute=false);
+void mergesort(T *arr, const size_t& size);
+template<typename T>
+void mergesort_order(T *arr, const size_t& size
+             , bool ascending, bool absolute=false);
+template<typename T>
+void merge_rec(T *arr, const size_t& size
+               , bool ascending=true, bool absolute=false);
 template<typename T> //function<T(T[], const size_t&, const size_t&)>
-void merge(T arr[], size_t a, size_t b
+void merge(T *arr, size_t a, size_t b
          ,  sort_order<T>* order_func);
 
 
 //DEFINITIONS
 template<typename T>
-void mergesort(T arr[], const size_t& size
+void mergesort(T* arr, const size_t& size){
+    mergesort_order(arr, size, true, false);
+}
+template<typename T>
+void mergesort_order(T *arr, const size_t& size
                ,  bool ascending, bool absolute){
     /**
      * @brief mergesort sorts an array[size], in an order
@@ -44,15 +53,29 @@ void mergesort(T arr[], const size_t& size
     size_t  a   = size/2,
             b   = size - a; //intervals [0,a],[a+1,b]
 
-    sort_order<T>* order = new sort_order<T>(ascending);
+//    sort_order<T>* order = new sort_order<T>(ascending);
+    static sort_order<T> order(ascending);
 
-    cout << "TEST\n";
     if(a > 1) //merge the left array
-            mergesort(arr, a, ascending, absolute);
+            merge_rec(arr, a, ascending, absolute);
     if(b > 1) //merge the right array
-            mergesort((arr+a), b, ascending, absolute);
+            merge_rec((arr+a), b, ascending, absolute);
 
-    merge(arr, a, b, order); //sort the two arrays
+    merge(arr, a, b, &order); //sort the two arrays
+    assert(verify(arr, size, ascending, absolute));
+}
+template<typename T>
+void merge_rec(T *arr, const size_t& size
+               , bool ascending, bool absolute){
+    size_t  a   = size/2,
+            b   = size - a; //intervals [0,a],[a+1,b]
+    static sort_order<T> order(ascending);
+    if(a > 1) //merge the left array
+            merge_rec(arr, a, ascending, absolute);
+    if(b > 1) //merge the right array
+            merge_rec((arr+a), b, ascending, absolute);
+
+    merge(arr, a, b, &order); //sort the two arrays
 }
 
 template<typename T>
@@ -63,13 +86,10 @@ template<typename T>
  * @param b: size of right arr partition
  * @param order_func: functor
  */
-void merge(T arr[], size_t a, size_t b
+void merge(T *arr, size_t a, size_t b
            ,  sort_order<T> *order_func){
     size_t count_l=0, count_r=a;
     T temp[a+b];
-    cout << "array segment over [" << count_l << ", " << count_r << "]" << endl;
-    print_array_segment(arr, 0, a+b);
-    cout << "countl: " << count_l << " countr: " << count_r << endl;
     while(count_l < a || count_r < a+b){
         if(count_l < a && count_r < a+b)
             temp[count_l + count_r - a] = (*order_func)(arr, count_l, count_r);
@@ -80,9 +100,7 @@ void merge(T arr[], size_t a, size_t b
             temp[count_r] = arr[count_r];
             count_r++;
         }
-        cout << "countl: " << count_l << " countr: " << count_r << endl;
     }
-    print_array_segment(temp, 0, a+b);
     for(size_t i = 0; i < (a+b); i++){
         arr[i] = temp[i];
     }
