@@ -17,7 +17,6 @@
 #define MERGESORT_H
 
 #include <cassert>
-#include <vector>
 #include <functional>
 #include "sort_controls.h"
 
