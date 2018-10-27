@@ -30,6 +30,8 @@ template<class T>
 bool verify(T* a, const size_t& size, bool asc=true, bool ab=false);
 template <class T>
 void print_array(const T * a, int size, bool status_only = false);
+template<class T> //comparison check based on type of sort desired
+bool sort_comp(const T& lhs, const T& rhs, bool ascending=true);
 
 //print * a from start to end
 template <class T>
@@ -39,14 +41,9 @@ void print_array_segment(const T * a, const size_t& start, const size_t& end, in
 //Sorting array control functions
 template<class T> //shuffles an array
 void shuffle(T *arr, const size_t& size){
-    T* shuffled_arr = new T[size];
-    for(size_t i = 0; i < size; i++)
-        shuffled_arr[i] = arr[i];
-    srand(time(NULL));
     for(size_t i = 0; i < 2*size; i++){
-        swap(shuffled_arr[rand()%size], shuffled_arr[rand()%size]);
+        swap(arr[rand()%size], arr[rand()%size]);
     }
-    arr = shuffled_arr;
 }
 template<class T>
 void copy_array(T* &copy, const T orig[], const size_t& size){
@@ -116,7 +113,6 @@ bool verify(T* a, const size_t& size, bool asc, bool ab){
 template<class T>
 T order_asc(T arr[], size_t& l, size_t& r);
 
-
 //print the array if status_only is true along with info on sortedness of * a
 template <class T>
 void print_array(const T * a, int size, bool status_only){
@@ -173,7 +169,11 @@ private:
     bool __order, __order_abs;
 };
 
-//Definitions
+template<class T>
+bool sort_comp(const T& lhs, const T& rhs, bool ascending){
+    return ((ascending) ? ((lhs<=rhs) ? (true):(false))
+                        : ((lhs>=rhs) ? (true):(false)));
+}
 
 
 #endif // SORT_CONTROLS_H

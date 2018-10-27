@@ -20,6 +20,11 @@
 
 //SIGNATURES
 template<class T>
+/**
+ * @brief bubblesort: algorithm that loops thru swapping nth with nth+1 index
+ * @param arr: array of unsorted elements
+ * @param size: size of arr
+ */
 void bubblesort(T* arr, const size_t& size);
 
 
@@ -30,6 +35,7 @@ void bubblesort(T* arr, const size_t& size){
     while(!sorted_flag){
         sorted_flag = true; //if it ends with no swap, then it's sorted
         for(size_t i = 0; i < size-1; i++){
+//            if(sort_comp(arr[i+1],arr[i])){
             if(arr[i] > arr[i+1]){
                 swap(arr[i], arr[i+1]);
                 sorted_flag = false;
