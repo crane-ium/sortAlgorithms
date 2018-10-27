@@ -1,0 +1,13 @@
+/** @file sorts
+ */
+
+#ifndef SORTS_H
+#define SORTS_H
+
+#include "bubblesort.h"
+#include "mergesort.h"
+#include "insertionsort.h"
+#include "quicksort.h"
+#include "heapsort.h"
+
+#endif // SORTS_H
