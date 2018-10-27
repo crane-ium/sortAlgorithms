@@ -25,10 +25,10 @@ template<typename T>
 void mergesort(T *arr, const size_t& size);
 template<typename T>
 void mergesort_order(T *arr, const size_t& size
-             , bool ascending, bool absolute=false);
+             , bool ascending);
 template<typename T>
 void merge_rec(T *arr, const size_t& size
-               , bool ascending=true, bool absolute=false);
+               , bool ascending=true);
 template<typename T> //function<T(T[], const size_t&, const size_t&)>
 void merge(T *arr, size_t a, size_t b
          ,  sort_order<T>* order_func);
@@ -37,11 +37,11 @@ void merge(T *arr, size_t a, size_t b
 //DEFINITIONS
 template<typename T>
 void mergesort(T* arr, const size_t& size){
-    mergesort_order(arr, size, true, false);
+    mergesort_order(arr, size, true);
 }
 template<typename T>
 void mergesort_order(T *arr, const size_t& size
-               ,  bool ascending, bool absolute){
+               ,  bool ascending){
     /**
      * @brief mergesort sorts an array[size], in an order
      * @param arr: array portion to be merge sorted
@@ -52,27 +52,26 @@ void mergesort_order(T *arr, const size_t& size
     size_t  a   = size/2,
             b   = size - a; //intervals [0,a],[a+1,b]
 
-//    sort_order<T>* order = new sort_order<T>(ascending);
     static sort_order<T> order(ascending);
 
     if(a > 1) //merge the left array
-            merge_rec(arr, a, ascending, absolute);
+            merge_rec(arr, a, ascending);
     if(b > 1) //merge the right array
-            merge_rec((arr+a), b, ascending, absolute);
+            merge_rec((arr+a), b, ascending);
 
     merge(arr, a, b, &order); //sort the two arrays
-    assert(verify(arr, size, ascending, absolute));
+    assert(verify(arr, size, ascending, false));
 }
 template<typename T>
 void merge_rec(T *arr, const size_t& size
-               , bool ascending, bool absolute){
+               , bool ascending){
     size_t  a   = size/2,
             b   = size - a; //intervals [0,a],[a+1,b]
     static sort_order<T> order(ascending);
     if(a > 1) //merge the left array
-            merge_rec(arr, a, ascending, absolute);
+            merge_rec(arr, a, ascending);
     if(b > 1) //merge the right array
-            merge_rec((arr+a), b, ascending, absolute);
+            merge_rec((arr+a), b, ascending);
 
     merge(arr, a, b, &order); //sort the two arrays
 }
@@ -104,6 +103,5 @@ void merge(T *arr, size_t a, size_t b
         arr[i] = temp[i];
     }
     delete[] temp;
-    //verify order of arr
 }
 #endif // MERGESORT_H
