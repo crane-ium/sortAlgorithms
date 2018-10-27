@@ -19,10 +19,17 @@
 
 template<class T>
 void heapsort(T* arr, const size_t& size);
+template<class T> //orders it so the array represents a heap tree
+void heaporder(T* arr, const size_t& size);
 
 
 template<class T>
 void heapsort(T* arr, const size_t& size){
+    //Uses nlogn time and constant space complexity
+    //Let's turn the array into a heap!
+}
+template< class T>
+void heaporder(T* arr, const size_t& size){
 
 }
 
