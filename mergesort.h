@@ -47,7 +47,6 @@ void mergesort_order(T *arr, const size_t& size
      * @param arr: array portion to be merge sorted
      * @param size: length of arr interval
      * @param ascending=true: order to sort
-     * @param absolute=false:  check that order is absolute or not
      */
     size_t  a   = size/2,
             b   = size - a; //intervals [0,a],[a+1,b]
@@ -87,7 +86,7 @@ template<typename T>
 void merge(T *arr, size_t a, size_t b
            ,  sort_order<T> *order_func){
     size_t count_l=0, count_r=a;
-    T temp[a+b];
+    T* temp = new T[a+b];
     while(count_l < a || count_r < a+b){
         if(count_l < a && count_r < a+b)
             temp[count_l + count_r - a] = (*order_func)(arr, count_l, count_r);

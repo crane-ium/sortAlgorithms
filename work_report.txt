@@ -1,0 +1,15 @@
+Bugs:
+-[FIXED]Some things stop working at certain size:
+    -Mergesort did not work past 1 million indeces
+
+Issues:
+-One thing i ddi not account for when designing was making my algorithms
+ stable sorting algorithms. Same value elements might swap places.
+  -This also lessens efficiency, I believe
+
+
+Notes:
+-Quicksort had a ton of improvement when using the median of a
+ small subset as the pivot instead. Before, time increased exponentially
+ after around 50k entries.
+-

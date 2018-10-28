@@ -9,5 +9,7 @@
 #include "insertionsort.h"
 #include "quicksort.h"
 #include "heapsort.h"
+#include "bucketsort.h"
+#include "radixsort.h"
 
 #endif // SORTS_H
