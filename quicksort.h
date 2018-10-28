@@ -25,6 +25,8 @@ void quicksort_rec(T* arr, const size_t& size);
 //void quicksort_order(T* arr, const size_t& size, bool ascending=true);
 template<class T>
 void partition(T* arr, const size_t& s, size_t& p_i);
+template<class T> //return the median value index of the first count elements
+void quick_median(T* arr, const size_t& s);
 
 template<class T>
 void quicksort(T* arr, const size_t& size){
@@ -42,6 +44,7 @@ void quicksort_rec(T* arr, const size_t& size){
 }
 template<class T>
 void partition(T* arr, const size_t& s, size_t& p_i){
+    quick_median(arr, s);
     size_t base_i = 0;//pivot is leftmost index
     T pivot = arr[base_i];
     size_t left_i = 1, right_i = s-1;
@@ -57,6 +60,17 @@ void partition(T* arr, const size_t& s, size_t& p_i){
     }
     p_i = right_i;
     swap(arr[base_i], arr[p_i]);
+}
+template<class T> //put the median value index of the first count elements at arr[0]
+void quick_median(T* arr, const size_t& s){
+    //Let's say we take the first, last, and middle terms to compare
+    if((arr[0] <= arr[s-1] && arr[s-1] <= arr[s/2]) ||
+            (arr[s/2] <= arr[s-1] && arr[s-1] <= arr[0]))
+        swap(arr[0], arr[s-1]);
+    else if((arr[s-1] <= arr[s/2] && arr[s/2] <= arr[0]) ||
+            (arr[0] <= arr[s/2] && arr[s/2] <= arr[s-1]))
+        swap(arr[0], arr[s/2]);
+    //now we have arr[0] as the median of these three terms
 }
 //template<class T>
 //void quicksort_order(T* arr, const size_t& size, bool ascending){
