@@ -1,0 +1,81 @@
+max: 1000000
+| mergesort         | Average time for 100000    elements:    22.869 milliseconds
+max: 1000000
+mergesort is SORTED
+  [00000] :      2
+  [00001] :      9
+  [00002] :     11
+  [99997] : 999907
+  [99998] : 999965
+  [99999] : 999978
+max: 10000
+| bubblesort        | Average time for 1000      elements:     4.063 milliseconds
+max: 10000
+bubblesort is SORTED
+  [000] :    5
+  [001] :   22
+  [002] :   24
+  [997] : 9960
+  [998] : 9974
+  [999] : 9978
+max: 10000
+| insertionsort     | Average time for 1000      elements:     2.116 milliseconds
+max: 10000
+insertionsort is SORTED
+  [000] :    0
+  [001] :   22
+  [002] :   23
+  [997] : 9955
+  [998] : 9959
+  [999] : 9980
+max: 1000000
+| quicksort         | Average time for 100000    elements:    10.194 milliseconds
+max: 1000000
+quicksort is SORTED
+  [00000] :     31
+  [00001] :     38
+  [00002] :     42
+  [99997] : 999962
+  [99998] : 999972
+  [99999] : 999989
+max: 1000000
+| heapsort          | Average time for 100000    elements:    41.050 milliseconds
+max: 1000000
+heapsort is SORTED
+  [00000] :     37
+  [00001] :     42
+  [00002] :     43
+  [99997] : 999954
+  [99998] : 999996
+  [99999] : 999997
+max: 1000000
+| heaporder-simple  | Average time for 100000    elements:     2.260 milliseconds
+max: 1000000
+heaporder-simple is NOT SORTED
+  [00000] : 999992
+  [00001] : 999971
+  [00002] : 999939
+  [99997] : 442310
+  [99998] : 652464
+  [99999] : 135527
+max: 1000000
+| bucketsort        | Average time for 100000    elements:    35.235 milliseconds
+max: 1000000
+bucketsort is SORTED
+  [00000] :     12
+  [00001] :     21
+  [00002] :     22
+  [99997] : 956716
+  [99998] : 956718
+  [99999] : 956754
+max: 1000000
+| radixsort         | Average time for 100000    elements:    97.687 milliseconds
+max: 1000000
+radixsort is SORTED
+  [00000] :     19
+  [00001] :     26
+  [00002] :     26
+  [99997] : 999973
+  [99998] : 999986
+  [99999] : 999989
+Press <RETURN> to close this window...

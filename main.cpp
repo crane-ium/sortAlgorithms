@@ -31,15 +31,15 @@ int main()
 //    //test mergesort
     print_int_sort(size2, runs, mergesort<int>, "mergesort");
 //    //test bubblesort
-//    print_int_sort(size, runs, bubblesort<int>, "bubblesort");
+    print_int_sort(size, runs, bubblesort<int>, "bubblesort");
 //    //test insertionsort
-//    print_int_sort(size, runs, insertionsort<int>, "insertionsort");
+    print_int_sort(size, runs, insertionsort<int>, "insertionsort");
 //    //test quicksort
     print_int_sort(size2, runs, quicksort<int>, "quicksort");
 //    //test heapsort
     print_int_sort(size2, runs, heapsort<int>, "heapsort");
 //    //test heaporder: the function that turns an array into heap array
-//    print_int_sort(size2, runs, heaporder_simple<int>, "heaporder-simple");
+    print_int_sort(size2, runs, heaporder_simple<int>, "heaporder-simple");
 //    //test bucketsort
     print_int_sort(size2, runs, bucketsort<int>, "bucketsort");
 
