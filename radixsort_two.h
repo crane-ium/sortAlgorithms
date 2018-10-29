@@ -20,14 +20,14 @@
 //I wanted a better implementation of radix sort
 //Also, want a radix sort that can use strings
 template<class T>
-T get_max(T* arr, const size_t& s);
+T get_max(T* arr, const size_t s);
 template<class T>
-void count_sort(T* &arr, const size_t& s, const size_t& exp);
+void count_sort(T* &arr, const size_t& s, const size_t exp);
 template<class T>
-void radixsort_two(T* &arr, const size_t& s);
+void radixsort_two(T* &arr, const size_t s);
 
 template<class T>
-T get_max(T* arr, const size_t& s){
+T get_max(T* arr, const size_t s){
     T max = T();
     for(size_t i = 0; i < s; i++){
         if(arr[i] > max)
@@ -36,18 +36,18 @@ T get_max(T* arr, const size_t& s){
     return max;
 }
 template<class T>
-void count_sort(T* &arr, const size_t& s, const size_t& exp){
+void count_sort(T* &arr, const size_t& s, const size_t exp){
     T* next_arr = new T[s];
 //    T next_arr[s];
     size_t count[10]={0}; //counting the number of digits
-    int i;
+    size_t i;
     for(i = 0; i < s; i++)
         count[arr[i]/exp%10]++;
     for(i = 1; i < 10; i++)
         count[i] += count[i-1];
-    for(i = s - 1; i >= 0; i--){
-        size_t index = arr[i]/exp % 10;
-        next_arr[count[index] - 1] = arr[i];
+    for(i = 0; i < s; i++){
+        size_t index = arr[s-i-1]/exp % 10;
+        next_arr[count[index] - 1] = arr[s-i-1];
         count[index]--;
     }
     //Is it better to delete the old array and just set new array?
@@ -57,9 +57,10 @@ void count_sort(T* &arr, const size_t& s, const size_t& exp){
     //ANSER: deleting and replacing is about 20% faster
 //    for(i = 0; i < s; i++)
 //        arr[i] = next_arr[i];
+//    delete[]  next_arr;
 }
 template<class T>
-void radixsort_two(T* &arr, const size_t& s){
+void radixsort_two(T* &arr, const size_t s){
     T max = get_max(arr, s);
     for(size_t i = 1; max/i > 0; i*=10){
         count_sort(arr, s, i);
