@@ -1,6 +1,7 @@
 Bugs:
 -[FIXED]Some things stop working at certain size:
-    -Mergesort did not work past 1 million indeces
+    -[FIXED]Mergesort did not work past 1 million indeces
+-Bucketsort v1.0 does not work past 1million size
 
 Issues:
 -One thing i ddi not account for when designing was making my algorithms
