@@ -40,7 +40,7 @@ void insertionsort(T* arr, const size_t& size){
             else
                 break;
         }
-        arr[n] = temp; //"insert"
+//        arr[n] = temp; //"insert" but it is redundant...
     }
     assert(verify_inc(arr, size));
 }

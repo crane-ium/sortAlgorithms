@@ -53,7 +53,9 @@ void copy_array(T* &copy, const T orig[], const size_t& size){
 }
 template <class T>
 bool verify_inc(T* a, const size_t& size){
-    assert(size >= 2);
+    assert(size >= 0);
+    if(size == 1 || size == 0)
+        return true;
     //check that the list is not-decreasing
     for(size_t i = 1; i < size; i++){
         if(a[i-1] > a[i])

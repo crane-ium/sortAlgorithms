@@ -11,5 +11,7 @@
 #include "heapsort.h"
 #include "bucketsort.h"
 #include "radixsort.h"
+#include "radixsort_two.h"
+#include "bucketsort_two.h"
 
 #endif // SORTS_H
