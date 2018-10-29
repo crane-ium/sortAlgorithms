@@ -107,24 +107,27 @@ T* get_clustered_array(const size_t& size, const size_t& min, const size_t& max)
 
 template<typename T, typename Func>
 double time_f(T *&a, const size_t& s, Func f, bool output, ostream& outs){
-    LARGE_INTEGER frequency, t_start, t_end;
-    double elapsed;
+    static timer clockboy; //implementation of data encapsulation for time
+//    LARGE_INTEGER frequency, t_start, t_end;
+//    double elapsed;
     if(output)
         outs << "Running function...\n";
-    QueryPerformanceFrequency(&frequency);
-    QueryPerformanceCounter(&t_start);
+//    QueryPerformanceFrequency(&frequency);
+//    QueryPerformanceCounter(&t_start);
+    clockboy.start();
     f(a, s); //run function
-    QueryPerformanceCounter(&t_end);
-    elapsed = (t_end.QuadPart - t_start.QuadPart)
-                * 1000.0 / frequency.QuadPart;
-    if(output)
-        outs << "The function ran in " << setprecision(3)
-             << elapsed << " milliseconds" << endl;
-    return elapsed;
+    clockboy.end();
+//    QueryPerformanceCounter(&t_end);
+//    elapsed = (t_end.QuadPart - t_start.QuadPart)
+//                * 1000.0 / frequency.QuadPart;
+//    if(output)
+//        outs << "The function ran in " << setprecision(3)
+//             << elapsed << " milliseconds" << endl;
+    return clockboy();
 }
 template<typename T, typename Func>
 double time_xf(const size_t &size, const size_t& runs, Func f){
-    size_t a_s = size;
+    size_t a_s = size;;
 //    double* t_arr = new double[runs];
     double time = 0;
     T* arr_n;
@@ -173,7 +176,7 @@ template<class T>
 void print_int_sort2(const size_t& size, const size_t& runs
                      , void(*f)(T*&, const size_t), const string& s){
     double average;
-//    average = time_xf<int>(size, runs, f);
+    average = time_xf<int>(size, runs, f);
     cout << setfill(' ');
     cout << "| " << left << setw(17) << s << " | Average time for " << setw(9)
          << size << " elements: " << setiosflags(ios::fixed) << setw(9)

@@ -7,6 +7,7 @@
 #include <cassert>
 #include <iomanip>
 #include <functional>
+#include "timers.h"
 
 using namespace std;
 
