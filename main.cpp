@@ -13,6 +13,8 @@ using namespace std;
 
 template<typename T>
 T* get_rand_array(const size_t& size, const size_t& min, const size_t& max);
+template<typename T>
+T* get_clustered_array(const size_t& size, const size_t& min, const size_t& max);
 template<typename T, typename Func>
 double time_f(T* a, const size_t& s, Func f, bool output=false, ostream& outs=cout);
 template<typename T>
@@ -23,33 +25,53 @@ double time_xf(const size_t& size, const size_t& runs, Func f);
 template<class Func>
 void print_int_sort(const size_t& size, const size_t& runs
                     , Func f, const string& s);
+template<class Func>
+void print_int_clustered_sort(const size_t& size, const size_t& runs
+                    , Func f, const string& s);
 
 int main()
 {
-    size_t size = 1000, runs = 3, size2 = 100000, size3 = 100000;
+    size_t size = 1000, runs = 1, size2 = 130000, size3 = 100000;
     srand(time(NULL));
-//    //test mergesort
-    print_int_sort(size2, runs, mergesort<int>, "mergesort");
-//    //test bubblesort
-    print_int_sort(size, runs, bubblesort<int>, "bubblesort");
-//    //test insertionsort
-    print_int_sort(size, runs, insertionsort<int>, "insertionsort");
-//    //test quicksort
+////    //test mergesort
+//    print_int_sort(size2, runs, mergesort<int>, "mergesort");
+////    //test bubblesort
+//    print_int_sort(size, runs, bubblesort<int>, "bubblesort");
+////    //test insertionsort
+//    print_int_sort(size, runs, insertionsort<int>, "insertionsort");
+////    //test quicksort
     print_int_sort(size2, runs, quicksort<int>, "quicksort");
-//    //test heapsort
-    print_int_sort(size2, runs, heapsort<int>, "heapsort");
-//    //test heaporder: the function that turns an array into heap array
-    print_int_sort(size2, runs, heaporder_simple<int>, "heaporder-simple");
-//    //test bucketsort
-    print_int_sort(size2, runs, bucketsort<int>, "bucketsort");
+////    //test heapsort
+//    print_int_sort(size2, runs, heapsort<int>, "heapsort");
+////    //test heaporder: the function that turns an array into heap array
+//    print_int_sort(size2, runs, heaporder_simple<int>, "heaporder-simple");
+////    //test bucketsort
+//    print_int_sort(size2, runs, bucketsort<int>, "bucketsort");
+//    //test radixsort - myversion
+//    print_int_sort(size2, runs, radixsort<int>, "radixsort");
+//    //test radixsort - optimized version
+    print_int_sort(size2, runs, radixsort_two<int>, "radixsortv2.0");
 
-    print_int_sort(size2, runs, radixsort<int>, "radixsort");
-    size_t s = 100;
-//    int* arr = get_rand_array<int>(s, 0, s*10);
-//    print_array(arr, s);
-//    radixsort(arr, s);
-//    print_array(arr, s);
-//    cout << verifystr(verify_inc<int>, arr, s) << endl;
+//    //CLUSTERED ARRAYS - NORMAL DISTRIBUTION
+////    //test mergesort
+//    print_int_clustered_sort(size2, runs, mergesort<int>, "mergesort");
+////    //test bubblesort
+//    print_int_clustered_sort(size, runs, bubblesort<int>, "bubblesort");
+////    //test insertionsort
+//    print_int_clustered_sort(size, runs, insertionsort<int>, "insertionsort");
+////    //test quicksort
+//    print_int_clustered_sort(size2, runs, quicksort<int>, "quicksort");
+////    //test heapsort
+//    print_int_clustered_sort(size2, runs, heapsort<int>, "heapsort");
+////    //test heaporder: the function that turns an array into heap array
+//    print_int_clustered_sort(size2, runs, heaporder_simple<int>, "heaporder-simple");
+////    //test bucketsort
+//    print_int_clustered_sort(size2, runs, bucketsort<int>, "bucketsort");
+//    //test radixsort - myversion
+//    print_int_clustered_sort(size2, runs, radixsort<int>, "radixsort");
+//    //test radixsort - optimized version
+//    print_int_clustered_sort(size2, runs, radixsort_two<int>, "radixsortv2.0");
+////    size_t s = 5;
 
     return 0;
 }
@@ -57,13 +79,25 @@ int main()
 template<typename T>
 T* get_rand_array(const size_t &size, const size_t& min, const size_t& max){
     assert(size>0);
-    cout << "max: " << max << endl;
     T* temp = new T[size];
     //Form a 32767 x 32767 matrix to generate a larger random int
     long long randint = rand() * 32767 + rand();
     for(size_t i = 0; i < size; i++){
         randint = rand() * 32767 + rand();
         temp[i] = randint % (max+min) + min;
+    }
+    return temp;
+}
+template<typename T>
+T* get_clustered_array(const size_t& size, const size_t& min, const size_t& max){
+    //returns an array with a normal distribution
+    long long randint1 = rand() * 32767 + rand();
+    long long randint2 = rand() * 32767 + rand();
+    T* temp = new T[size];
+    for(size_t i = 0; i < size; i++){
+        randint1 = rand() * 32767 + rand();
+        randint2 = rand() * 32767 + rand();
+        temp[i] = (randint1%((max-(min+1)/2)/2)) + (randint2%((max-min/2+1)/2))+min;
     }
     return temp;
 }
@@ -120,6 +154,27 @@ void print_int_sort(const size_t& size, const size_t& runs
          << size << " elements: " << setiosflags(ios::fixed) << setw(9)
          << setprecision(3) << right << average << " milliseconds\n";
     int* arr = get_rand_array<int>(size, 0, size*10);
+    shuffle(arr, size);
+    f(arr, size); //call the sort function
+    //Let's print the first three and last three elements
+    cout << s << " is " << verifystr(verify_inc<int>, arr, size) << endl;
+    for(size_t i = 0; i < 3; i++)
+        cout << "  [" << setfill('0') << setw(log10(size)) << i << "] : "
+             << right << setfill(' ') << setw(log10(size)+1) << arr[i]  << endl;
+    for(size_t i = size-3; i < size; i++)
+        cout << "  [" << setfill('0') << setw(log10(size)) << i << "] : "
+             << right << setfill(' ') << setw(log10(size)+1) << arr[i]  << endl;
+}
+template<class Func>
+void print_int_clustered_sort(const size_t& size, const size_t& runs
+                    , Func f, const string& s){
+    double average;
+    average = time_xf<int>(size, runs, f);
+    cout << setfill(' ');
+    cout << "| " << left << setw(17) << s << " | Average time for " << setw(9)
+         << size << " elements: " << setiosflags(ios::fixed) << setw(9)
+         << setprecision(3) << right << average << " milliseconds\n";
+    int* arr = get_clustered_array<int>(size, 0, size*10);
     shuffle(arr, size);
     f(arr, size); //call the sort function
     //Let's print the first three and last three elements
