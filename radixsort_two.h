@@ -38,6 +38,7 @@ T get_max(T* arr, const size_t& s){
 template<class T>
 void count_sort(T* &arr, const size_t& s, const size_t& exp){
     T* next_arr = new T[s];
+//    T next_arr[s];
     size_t count[10]={0}; //counting the number of digits
     int i;
     for(i = 0; i < s; i++)
@@ -53,6 +54,9 @@ void count_sort(T* &arr, const size_t& s, const size_t& exp){
     //or to copy index by index into the old array?
     delete[] arr;
     arr = next_arr;
+    //ANSER: deleting and replacing is about 20% faster
+//    for(i = 0; i < s; i++)
+//        arr[i] = next_arr[i];
 }
 template<class T>
 void radixsort_two(T* &arr, const size_t& s){
@@ -61,6 +65,7 @@ void radixsort_two(T* &arr, const size_t& s){
         count_sort(arr, s, i);
     }
     //verify inc
+    assert(verify_inc(arr, s));
 }
 
 #endif // RADIXSORT_TWO_H

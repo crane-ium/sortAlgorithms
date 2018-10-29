@@ -17,8 +17,6 @@
 
 #include "sort_controls.h"
 #include <vector>
-
-
 template<class T>
 void radixsort(T* arr, const size_t& size);
 template<class T>
@@ -105,11 +103,12 @@ void move_buckets(vector<vector<T> >& sender, vector<vector<T> >& reciever
         index=0;
         while(index < sender[count].size()){
             T temp = sender[count][index];
-            if(temp < 10*(T)pow(10,digit)){ //move them to bucket3 to place in array
-                d_val = (temp - temp%(T)pow(10,digit))/(T)pow(10,digit);
+            T power = pow(10,digit);
+            if(temp < 10*power){ //move them to bucket3 to place in array
+                d_val = temp/power%10;
                 b3[d_val].push_back(temp);
             }else{ //hop them over to the alternate bucket
-                d_val = (temp%(10*(T)pow(10,digit)) - temp%(T)pow(10,digit))/(T)pow(10,digit);
+                d_val = temp/power%10;
                 reciever[d_val].push_back(temp);
             }
             index++;
