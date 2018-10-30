@@ -20,7 +20,7 @@ template<typename T>
 T get_average(T* a, const size_t& s);
 //void time_f(T* a, const size_t& s, void(*f)(T*, const size_t)); //wasn't working
 template<typename T, typename Func>
-double time_xf(const size_t& size, const size_t& runs, Func f);
+double time_xf(const size_t& size, const size_t& runs, Func f, const size_t a_max);
 template<class Func>
 void print_int_sort(const size_t& size, const size_t& runs
                     , Func f, const string& s);
@@ -33,7 +33,7 @@ void print_int_clustered_sort(const size_t& size, const size_t& runs
 
 int main()
 {
-    size_t size = 1000, runs = 10, size2 = 100000, size3 = 100000;
+    size_t size = 1000, runs = 5, size2 = 100000, size3 = 100000, size4=100000;
     srand(time(NULL));
 ////    //test mergesort
     print_int_sort(size2, runs, mergesort<int>, "mergesort");
@@ -48,13 +48,15 @@ int main()
 ////    //test heaporder: the function that turns an array into heap array
     print_int_sort(size2, runs, heaporder_simple<int>, "heaporder-simple");
 ////    //test bucketsort
-    print_int_sort(size2, runs, bucketsort<int>, "bucketsort");
+    print_int_sort(size4, runs, bucketsort<int>, "bucketsort");
 //    //test radixsort - myversion
     print_int_sort(size2, runs, radixsort<int>, "radixsort");
 //    //test radixsort - optimized version
     print_int_sort(size2, runs, radixsort_two<int>, "radixsortv2.0");
     //test bucketsort - optimized
     print_int_sort(size2, runs, bucketsort_two<int>, "bucketsortv2.0");
+    //countingsort
+    print_int_sort(size2, runs, countingsort, "countingsort");
 //    //CLUSTERED ARRAYS - NORMAL DISTRIBUTION
 ////    //test mergesort
 //    print_int_clustered_sort(size2, runs, mergesort<int>, "mergesort");
@@ -126,13 +128,13 @@ double time_f(T *&a, const size_t& s, Func f, bool output, ostream& outs){
     return clockboy();
 }
 template<typename T, typename Func>
-double time_xf(const size_t &size, const size_t& runs, Func f){
+double time_xf(const size_t &size, const size_t& runs, Func f, const size_t a_max){
     size_t a_s = size;;
 //    double* t_arr = new double[runs];
     double time = 0;
     T* arr_n;
 
-    arr_n = get_rand_array<int>(a_s, 0, a_s*10);
+    arr_n = get_rand_array<int>(a_s, 0, a_max);
     for(size_t i = 0; i < runs; i++){
         shuffle(arr_n, size);
         time += time_f(arr_n, a_s, f, false);
@@ -153,21 +155,26 @@ T get_average(T* a, const size_t& s){
 template<class Func>
 void print_int_sort(const size_t& size, const size_t& runs
                     , Func f, const string& s){
-    double average;
-    average = time_xf<int>(size, runs, f);
+    double average1, average2, average3;
+    average1 = time_xf<int>(size, runs, f, size/10);
+    average2 = time_xf<int>(size, runs, f, size);
+    average3 = time_xf<int>(size, runs, f, size*10);
     cout << setfill(' ');
     cout << "| " << left << setw(17) << s << " | Average time for " << setw(9)
-         << size << " elements: " << setiosflags(ios::fixed) << setw(9)
-         << setprecision(3) << right << average << " milliseconds\n";
-    int* arr = get_rand_array<int>(size, 0, size*10);
+         << size << " elements: " << endl << setiosflags(ios::fixed)
+         << "1:10 elements:duplicates: "
+         << setw(9) << setprecision(3) << right << average1 << " milliseconds\n"
+         << "1:1  elements:duplicates: " << setw(9) << average2 << " milliseconds\n"
+         << "10:1 elements:duplicates: " << setw(9) << average3 << " milliseconds\n";
+    int* arr = get_rand_array<int>(size, 0, size);
     shuffle(arr, size);
     f(arr, size); //call the sort function
     //Let's print the first three and last three elements
     cout << s << " is " << verifystr(verify_inc<int>, arr, size) << endl;
-    for(size_t i = 0; i < 10; i++)
+    for(size_t i = 0; i < 3; i++)
         cout << "  [" << setfill('0') << setw(log10(size)) << i << "] : "
              << right << setfill(' ') << setw(log10(size)+1) << arr[i]  << endl;
-    for(size_t i = size-10; i < size; i++)
+    for(size_t i = size-3; i < size; i++)
         cout << "  [" << setfill('0') << setw(log10(size)) << i << "] : "
              << right << setfill(' ') << setw(log10(size)+1) << arr[i]  << endl;
     delete[] arr;

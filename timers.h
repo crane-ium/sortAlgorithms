@@ -10,7 +10,7 @@ public:
     }
     const double operator()(){
         //return the time
-        return (t_end.QuadPart - t_start.QuadPart) * 1000.0 / frequency.QuadPart;
+        return (double)((t_end.QuadPart - t_start.QuadPart) * 1000.0 / frequency.QuadPart);
     }
     void start(){ //set start time
         QueryPerformanceCounter(&t_start);
