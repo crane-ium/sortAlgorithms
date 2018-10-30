@@ -13,5 +13,6 @@
 #include "radixsort.h"
 #include "radixsort_two.h"
 #include "bucketsort_two.h"
+#include "countingsort.h"
 
 #endif // SORTS_H
