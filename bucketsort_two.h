@@ -23,17 +23,17 @@ void bucketsort_two(T* &arr, const size_t size){
     T max = get_max(arr, size);
     size_t max_i = (size_t)(max/range);
     size_t count1[max_i + 2] = {0};
-    size_t count2[max_i + 2] = {0};
+//    size_t count2[max_i + 2] = {0};
     count1[max_i + 1] = size;
-    count2[max_i + 1] = size;
+//    count2[max_i + 1] = size;
     for(size_t i = 0; i < size; i++){
         size_t arr_e = arr[i]/range;
         count1[arr_e]++;
-        count2[arr_e]++;
+//        count2[arr_e]++;
     }
-    for(size_t i = 1; i < (size_t)(max/range)+1; i++){
+    for(size_t i = 1; i < max_i+1; i++){
         count1[i] += count1[i-1];
-        count2[i] += count2[i-1];
+//        count2[i] += count2[i-1];
     }
     for(size_t i = 0; i < size; i++){
         //put elements of arr into their corresponding bucket
@@ -47,7 +47,7 @@ void bucketsort_two(T* &arr, const size_t size){
     delete[] arr;
     arr = temp;
     //verify
-//    assert(verify_inc(arr, size));
+    assert(verify_inc(arr, size));
 }
 template<class T>
 void b_get_max(T* arr, const size_t size){
